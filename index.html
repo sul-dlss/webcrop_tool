@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>WebCrop Tool</title>
+    <link href="css/main.css" type="text/css" rel="stylesheet" />
+    <link href="css/jquery.Jcrop.css" type="text/css" rel="stylesheet" />
+    <link href="css/smoothness/jquery-ui-1.8.4.custom.css" type="text/css" rel="stylesheet" />    
+  </head>
+  <body>
+    <img id="logo" src="images/logo-1.png" alt="WebCrop" style="margin: 6px 0 0 12px;"/>
+
+    <div id="contents">
+      <div id="sidebar">
+        
+        <div id="img-info">
+          <span class="box-title">Image Info:</span>
+          <dl>
+            <dt>Filename:</dt><dd id="md-filename"></dd>
+            <dt>Original Size:</dt><dd id="md-dimensions"></dd>
+          </dl>
+          <div id="img-nav">            
+            <input id="btn-img-nav-prev" type="button" value="&larr; Prev">
+            <input id="btn-img-nav-next" type="button" value="Next &rarr;"> 
+          </div>
+        </div>
+        
+        <div id="mode">
+          <span class="box-title">Mode:</span>
+          <div id="mode-box">
+            <div id="mode-crop" title="Crop Mode">Crop</div>
+            <div id="mode-rotate" class="mode-off" title="Rotate Mode">Rotate</div>  
+          </div>
+        </div>
+        
+        <div id="crop-dimensions">
+          <span class="box-title">Crop Attributes:</span>
+          <dl>
+            <dt>x1:</dt><dd><input type="text" id="x1-val" size="8"></dd>
+            <dt>y1:</dt><dd><input type="text" id="y1-val" size="8"></dd>
+            <dt>x2:</dt><dd><input type="text" id="x2-val" size="8"></dd>
+            <dt>y2:</dt><dd><input type="text" id="y2-val" size="8"></dd>
+            <dt>Width:</dt><dd><input type="text" id="width-val" size="8"></dd>
+            <dt>Height:</dt><dd><input type="text" id="height-val" size="8"></dd>
+          </dl>          
+          <div id="crop-locks">
+            <dl>
+              <dt>Lock/Unlock crop coordinates:</dt>
+              <dd><img id="lock-crop-coords" src="images/icon-lock-disabled.png" title="Lock/unlock crop coordinates" alt="Lock/unlock crop coordinates"></dd>              
+            </dl>
+          </div>
+        </div>
+        
+        
+        <div id="rotation">
+          <span class="box-title">Rotation:</span>
+          <dl>
+            <dt>Angle:</dt><dd><input type="text" id="rotation-angle" size="8"></dd>
+          </dl>  
+          <div id="slider"></div>
+        </div>
+        <div>          
+          <a id="json-data" href="" style="display:none;">JSON</a>
+        </div>
+
+      </div>
+
+      <div id="containers">
+        <div id="crop-container">
+          <img id="crop-img" src="" alt="" />
+        </div>
+        <div id="rotate-container" style="display: none;">
+          <img id="rotate-img" src="" alt="" />
+        </div>
+      </div>
+      
+      <div id="slide-show">
+        <div id="multi-select-options">          
+          <a id="select-all-chkboxes" href="#">Select All</a> &bull;
+          <a id="unselect-all-chkboxes" href="#">UnSelect All</a> <br/>    
+          <input id="btn-apply-crop" type="button" value="Apply crop attributes" disabled="true">
+        </div>
+        <ul id="slide-show-list">          
+        </ul>    
+      </div>      
+    </div>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery.Jcrop.min.js" type="text/javascript"></script>
+    <script src="js/jqueryRotate.min.js" type="text/javascript"></script>
+    <script src="js/jquery.shiftclick.js" type="text/javascript"></script>
+    <script src="js/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
+    <script src="js/json2.js" type="text/javascript"></script>
+    <script src="js/main.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var imgData = [
+        {
+          "fileSrc": "images/superE-00019373/00019373_0001.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0002.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0003.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542,
+          "cropCoords": {
+            "x1": 134, "y1": 153, "x2": 2054, "y2": 3368 
+          } 
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0004.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0005.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0006.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0007.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0008.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0009.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0010.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0011.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0012.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0013.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0014.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0015.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0016.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0017.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0018.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0019.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        },
+        {
+          "fileSrc": "images/superE-00019373/00019373_0020.jpg",
+          "origWidth": 2320,
+          "origHeight": 3542
+        }
+      ];
+    </script>
+  </body>
+</html>
